@@ -1,35 +1,29 @@
 #include <stdio.h>
 
 int main(void){
-    int a,sum = 0;
+    int a = 0;
     FILE *fin = NULL;
-    int n = 0; //number of numbers
-    int max = -2147483648;
+    int n = 0; //счетчик количества  чисел
+    int max = -2147483648; // это минимальное значение для типа int
    
     if ((fin = fopen("input.txt","r")) == NULL){
-        printf("ERROR: FILE CANNOT BE OPENED :(\n");
+        printf("ERROR: FILE CANNOT BE OPENED \n");
         return -1;
     }
+
     while(fscanf(fin,"%d",&a) == 1){
-        
-        sum+=a;
         n++;
         if (a > max){
-            max = a;
+            max = a; //если число больше максимума - то это новый максимум
         }
     } 
-
-    if (n == 0){ // zero numbers situation
-        printf("No numbers in the file :(\n");
+    if (n == 0){ // о боже мой, чисел в файле не было - какая жалость, давайте обязательно сообщим об этом пользователю
+        printf("No numbers in the file \n");
     }
     else{
         printf("Max number:%d\n", max);
     }
-    
-
-    //printf("sum=%d\nn =%d\n", sum, n);
-    //printf("a1 = %d,a2 = %d,a = %d\n", a1, a2,a);
-    
+    //закрыть файл. вернуть 0.
     fclose(fin);
     return 0;
 

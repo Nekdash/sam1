@@ -1,49 +1,50 @@
 #include <stdio.h>
 
 int main(void){
-    int a,sum = 0;
+    int a = 0;
     FILE *fin = NULL;
-    int n = 0; //number of numbers
-    int cur_a = 0;
+    int n = 0; //счетчик чисел в файле
     
-    int insert_num = 0, count_insert = 0, index_insert = 0, index_found = 0, index_last_found = 0;
+    /*
+    insert_num - переменная для введенного числа
+    index_insert - сюда вы положим номер места где впервые нашли наше число (если не найдем там будет -1)
+    */
+    int insert_num;
+    int index_insert= -1;
     
     printf("Input a number:\n");
-    scanf("%d", &insert_num);
+
+    //считываем число и проверяем что считали именно число что все хорошо и что пользователь не долбаеб
+    if (scanf("%d", &insert_num) != 1){
+        printf("INCORRECT INPUT");
+        return -1;
+    }
     if ((fin = fopen("input.txt","r")) == NULL){
-        printf("ERROR: FILE CANNOT BE OPENED :(\n");
+        printf("ERROR: FILE CANNOT BE OPENED \n");
         return -1;
     }
     
     while(fscanf(fin,"%d",&a) == 1){
-        
-        sum+=a;
-        n++;
+        n++; // следим за номером числа
 
-        
         if (a == insert_num){
-            count_insert += 1;
-            
-            if (index_found == 0){
+            if (index_insert == -1){
                 index_insert = n;
-                index_found = 1;
             }
-            index_last_found = n;
         }
     } 
 
-    if (n == 0){ // zero numbers situation
-        printf("No numbers in the file :(\n");
+    if (n == 0){ // если чисел в файле не было - сообщаем о таком недоразумении
+        printf("No numbers in the file \n");
     }
     else{
-        if(count_insert != 0) {
-            
-            printf("Your number was first found on the %d place\n", index_found);
-            
+        if(index_insert != -1) { //число находили
+            printf("Your number was first found on the %d place\n", index_insert);
         }
-        else printf("Your number was not found once! :(\n\n");
+        else printf("Your number was not found once! :(\n\n"); // ну не было числа в файле, ну что вы пристали
     }
     
+    //если вы хоть что-то напишете вообще - так это закрытие файла и возврат нуля - обязательно
     fclose(fin);
     return 0;
 

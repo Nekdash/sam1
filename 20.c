@@ -1,54 +1,58 @@
 #include <stdio.h>
 
+/*
+объяснять этот пиздец лучше лично
+*/
+
+
+
 int main(void){
-    int a,sum = 0;
+    int a = 0;
     FILE *fin = NULL;
-    int n = 0; //number of numbers
-    int counter = 0;
-    int checker = 0;
+    int n = 0; //считаем числа в файле
+    int counter = 0; 
+    int checker = 0; 
     int monot = 0;
     int fuck = 0;
+    int ap = 0;
+
+    
+
     if ((fin = fopen("input.txt","r")) == NULL){
-        printf("ERROR: FILE CANNOT BE OPENED :(\n");
+        printf("ERROR: FILE CANNOT BE OPENED\n");
         return -1;
     }
     if(fscanf(fin,"%d",&a) == 1){
-        int ap = a; //previous a 
+        ap = a; //previous a 
         n++;
     }
     while(fscanf(fin,"%d",&a) == 1){
         n++;
-        if (a != ap){
-            if (checker == 0){
-                if(a > ap)monot = 1; // growing
-                else monot = -1; // decreasing
-                checker = 1;
-            }
+        if (a != ap && checker == 0){  
+            if(a > ap)monot = 1; // возрастает
+            else monot = -1; // убывает
+            checker = 1;
+            counter++;
         }
-        if (monot == 1){ //growing
+        if (monot == 1){ //возрастающая функция
             if (a < ap){
                 printf("ERROR: SEQENCE NOT CONSISTENT");
                 return -1;
             }
-            if (a > ap && fuck == 0){
+            if (a > ap ){
                 counter++;
-            }else if(a > ap){
                 fuck = 0;
             }
-            
-
         }
-        else if (monot == -1){ //decreasing
+        else if (monot == -1){ //убывающая функция
             if (a > ap){
                 printf("ERROR: SEQENCE NOT CONSISTENT");
                 return -1;
             }
-            if (a < ap && fuck == 0){
+            if (a < ap){
                 counter++;
-            }else if(a < ap){
                 fuck = 0;
             }
-
         }
         if(a == ap && fuck == 0){
             fuck = 1;
@@ -57,13 +61,13 @@ int main(void){
         ap = a;
     } 
 
-    if (n == 0){ // zero numbers situation
-        printf("No numbers in the file :(\n");
+    if (n == 0){ // заебали путсые файлы делать бляди
+        printf("No numbers in the file\n");
     }
     else{
         printf("Amount of unique numbers: %d\n", counter);
     }
-    
+    //файл закрой и ноль верни
     fclose(fin);
     return 0;
 

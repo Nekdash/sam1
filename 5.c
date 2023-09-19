@@ -1,49 +1,45 @@
 #include <stdio.h>
 
+//более точное описание алгоритма чистать в задаче номер 4 - тут изменены пара строк
+
 int main(void){
-    int a,sum = 0;
+    int a = 0;
     FILE *fin = NULL;
-    int n = 0; //number of numbers
-    int cur_a = 0;
+    int n = 0; //счетчик чисел в файле
     
-    int insert_num = 0, count_insert = 0, index_insert = 0, index_found = 0, index_last_found = 0;
+    int insert_num;
+    int index_last_found = -1;
     
     printf("Input a number:\n");
-    scanf("%d", &insert_num);
+    if (scanf("%d", &insert_num) != 1){
+        printf("INCORRECT INPUT");
+        return -1;
+    }
+
     if ((fin = fopen("input.txt","r")) == NULL){
-        printf("ERROR: FILE CANNOT BE OPENED :(\n");
+        printf("ERROR: FILE CANNOT BE OPENED \n");
         return -1;
     }
     
     while(fscanf(fin,"%d",&a) == 1){
         
-        sum+=a;
-        n++;
-
-        
+        n++; // следим за номером нашего числа
         if (a == insert_num){
-            count_insert += 1;
-            
-            if (index_found == 0){
-                index_insert = n;
-                index_found = 1;
-            }
             index_last_found = n;
         }
     } 
 
-    if (n == 0){ // zero numbers situation
-        printf("No numbers in the file :(\n");
+    if (n == 0){ // чисел нет - сообщаем что пользователя вероятно черт попутал
+        printf("No numbers in the file \n");
     }
     else{
-        if(count_insert != 0) {
-            
+        if(index_last_found != -1) { //число было найдено
             printf("Your number was last found on the %d place\n\n", index_last_found);
         }
         else printf("Your number was not found once! :(\n\n");
     }
     
-
+    //умоляю вас закрывайте файл до выхода, и возвращайте 0
     fclose(fin);
     return 0;
 

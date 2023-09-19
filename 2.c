@@ -1,58 +1,66 @@
 #include <stdio.h>
 
 int main(void){
-    int a,sum = 0;
+    int a = 0; //переменная для нынешнего значения а
     FILE *fin = NULL;
-    int n = 0; //number of numbers
+    int n = 0; //количество чисел в файле - счетчик
     
-    int a1 = 0, a2, previous_a, error_gp  = 0;
-    int difference = 1, ratio, checker_ap, checker_gp= 1;
+    /*
+    ОБЪЯСЕНИЕ ПЕРЕМЕННЫХ:
+    а1 и а2 - переменные для первых двух чисел - по ним я рассчитываю а1 и q
+    previous_a - переменная для предыдущего значения а (сохраняю для проверки частного с нынешней а)
+    ratio - это и есть q (частное)
+
+    checker_gp - с  помощью нее я слежу за тем, что это геом. прогрессия
+                = 0 - прогрессия не геометрическая
+                = 1 - прогрессия геометричсекая (все хорошо) 
     
+    */
+
+    int a1 = 0, a2, previous_a = 0;
+    int ratio, checker_gp= 1;
     
+    //открываем файл и проверяем что он открылся
     if ((fin = fopen("input.txt","r")) == NULL){
-        printf("ERROR: FILE CANNOT BE OPENED :(\n");
+
+        //если файл не открылся - пишем ошибку и ПИШЕМ RETURN ОБЯЗАТЕЛЬНО ИНАЧЕ ПИЗДЕЦ
+        printf("ERROR: FILE CANNOT BE OPENED \n");
         return -1;
     }
-     //read first two numbers
-    if(fscanf(fin,"%d", &a) == 1){a1 = a; n++;sum+=a;} 
-    if(fscanf(fin,"%d", &a) == 1){a2 = a; n++;sum+=a;}
 
-    difference = a2 - a1;
+    //считываю первые два числа ; сохраняю их в переменных а1 и а2 ; добавляю к счетчику чисел по единичке
+    if(fscanf(fin,"%d", &a) == 1){a1 = a; n++;} 
+    if(fscanf(fin,"%d", &a) == 1){a2 = a; n++;}
 
-    if (a1 == 0 || a2 == 0){error_gp = 1; checker_gp = 0;}
-    else{ratio = a2 / a1;}
     
-    previous_a = a2;
+    //в википедии написано что элементы геометричесмкой прогрессии не могут быть равны нулю - проверяем это
+    if (a1 == 0 || a2 == 0){checker_gp = 0;}
+    else{ratio = a2 / a1;} // если все хорошо то считаем частное
+    
+    previous_a = a2; //теперь "предыдущее а" это а2
     
     while(fscanf(fin,"%d",&a) == 1){
-        sum+=a;
         n++;
-
-        if (a - previous_a != difference) checker_ap = 0;
-        if (a == 0 || error_gp == 1) {error_gp = 1; checker_gp = 0;}
-        else if (a / previous_a != ratio) checker_gp = 0;
+        if (a == 0 ) {checker_gp = 0;} //если число ноль - прогрессия не геометрическая
+        else if (a / previous_a != ratio) checker_gp = 0; // или если частное двух соседних чисел другое
         
-
-        previous_a = a;
+        previous_a = a; //обновляем "предыдущее а"
     } 
 
-    if (n == 0){ // zero numbers situation
-        printf("No numbers in the file :(\n");
+    if (n == 0){ // если чисел нет - сообщаем об этом
+        printf("No numbers in the file \n");
     }
     else{
-        if(n == 1)printf("One number is not a progression.\n");
+        if(n == 1)printf("One number is not a progression.\n"); //число одно - так себе прогресиия - сообщаем об этом
         else{
-            //if(checker_ap == 0) printf("It's not an arithmetic progression! :(\n\n");
-            //else printf("It's an arithmetic progression! a1 = %d, d = %d\n\n", a1, difference);
-            if(checker_gp == 0 || error_gp == 1) printf("It's not a geometric progression! :(\n\n");
+            //если наш checker равен 0 - то прогрессия не геометрическая
+            if(checker_gp == 0) printf("It's not a geometric progression! \n\n");
             else printf("It's a geometric progression! b1 = %d, q = %d\n\n", a1, ratio);
         }
     }
     
 
-    //printf("sum=%d\nn =%d\n", sum, n);
-    //printf("a1 = %d,a2 = %d,a = %d\n", a1, a2,a);
-    
+    //закрыть файл и вернуть 0 - обязательно
     fclose(fin);
     return 0;
 

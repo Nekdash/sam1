@@ -1,40 +1,35 @@
 #include <stdio.h>
 
 int main(void){
-    int a,sum = 0;
+    int a = 0;
     FILE *fin = NULL;
-    int n = 0; //number of numbers
-    int max = -2147483648;
-    int max_c = 0;
+    int n = 0; //счетчик чисел в файлееее
+    int max = -2147483648; //самое маленькое возможное значение int
+    int max_c = 0; //счетчик максимальных чисел
     
     if ((fin = fopen("input.txt","r")) == NULL){
-        printf("ERROR: FILE CANNOT BE OPENED :(\n");
+        printf("ERROR: FILE CANNOT BE OPENED\n");
         return -1;
     }
     while(fscanf(fin,"%d",&a) == 1){
-        
-        sum+=a;
         n++;
-        if (a > max){
+        if (a > max){ //число больше максимума - новый максимум и счетчик сбрасываем до 1
             max = a;
             max_c = 1;
         }
-        else if(a == max){
+        else if(a == max){ //очередной старый максимум ( который мы уже встрчали) - добавляем один к счетчику
             max_c++;
         }
     } 
 
-    if (n == 0){ // zero numbers situation
-        printf("No numbers in the file :(\n");
+    if (n == 0){ // как же так, в файле пусто - сообщаем об этом
+        printf("No numbers in the file\n");
     }
     else{
-        printf("Max number:%d\nAmount of max numbers:%d\n", max, max_c);
+        printf("Amount of max numbers:%d\n", max_c);
     }
-    
 
-    //printf("sum=%d\nn =%d\n", sum, n);
-    //printf("a1 = %d,a2 = %d,a = %d\n", a1, a2,a);
-    
+    //кто файл закрыл и вернул 0 - тот молодец
     fclose(fin);
     return 0;
 

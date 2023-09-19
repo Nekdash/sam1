@@ -1,19 +1,21 @@
 #include <stdio.h>
 
+//смотрите решение номера 9 : здесь просто вычитаем найденное значение из общего кол-ва чисел
+
 int main(void){
-    int a,sum = 0;
+    int a = 0;
     FILE *fin = NULL;
-    int n = 0; //number of numbers
+    int n = 0; //счетчик чисел в файле
     int max = -2147483648;
     int max_c = 0;
     
     if ((fin = fopen("input.txt","r")) == NULL){
-        printf("ERROR: FILE CANNOT BE OPENED :(\n");
+        printf("ERROR: FILE CANNOT BE OPENED \n");
         return -1;
     }
     while(fscanf(fin,"%d",&a) == 1){
         
-        sum+=a;
+        
         n++;
         if (a > max){
             max = a;
@@ -24,17 +26,14 @@ int main(void){
         }
     } 
 
-    if (n == 0){ // zero numbers situation
-        printf("No numbers in the file :(\n");
+    if (n == 0){ // может не стоило вводить пустой файл?
+        printf("No numbers in the file \n");
     }
     else{
-        printf("Max number:%d\nAmount of  non-max numbers:%d\n", max, n - max_c);
+        printf("Amount of  non-max numbers:%d\n", n - max_c);
     }
     
 
-    //printf("sum=%d\nn =%d\n", sum, n);
-    //printf("a1 = %d,a2 = %d,a = %d\n", a1, a2,a);
-    
     fclose(fin);
     return 0;
 

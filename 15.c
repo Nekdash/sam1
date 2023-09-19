@@ -1,20 +1,20 @@
 #include <stdio.h>
 
 int main(void){
-    int a,sum = 0;
+    int a = 0;
     FILE *fin = NULL;
-    int n = 0; //number of numbers
+    int n = 0; // счетчик чисел в файле
     int max = -2147483648;
-    int max_first = 0;
+    int max_first = 0; // индекс первого максимального числа в файле
    
     if ((fin = fopen("input.txt","r")) == NULL){
-        printf("ERROR: FILE CANNOT BE OPENED :(\n");
+        printf("ERROR: FILE CANNOT BE OPENED \n");
         return -1;
     }
     while(fscanf(fin,"%d",&a) == 1){  
-        sum+=a;
+        
         n++;
-        if (a > max){
+        if (a > max){ // нынешнее а больше максимума - это новый максимум ( а значит и первое его появление )
             max = a;
             max_first = n;
         }
@@ -22,13 +22,13 @@ int main(void){
     } 
 
     if (n == 0){ // zero numbers situation
-        printf("No numbers in the file :(\n");
+        printf("No numbers in the file \n");
     }
     else{
-        printf("Max number:%d\nFirst max number found at %d place\n", max, max_first);
+        printf("First max number found at %d place\n", max_first);
     }
     
-    
+    //файл закройте , 0 верните, вам то сложно что ли
     fclose(fin);
     return 0;
 

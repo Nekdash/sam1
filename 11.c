@@ -1,36 +1,43 @@
 #include <stdio.h>
+#include <math.h>
+
+//на простых примерах работает - проверьте на сложных
 
 int main(void){
-    int a,sum = 0;
+    int a = 0;
     FILE *fin = NULL;
-    int n = 0; //number of numbers
+    int n = 0; //счетчик чсиел в файле
     int insert_num = 0;
     int res = 0;
-    
+    int derivative = 0; //производная
+    printf("Input number:\n");
+    if (scanf("%d", &insert_num) != 1){
+        printf("INCORRECT INPUT");
+        return -1;
+    }
 
     if ((fin = fopen("input.txt","r")) == NULL){
-        printf("ERROR: FILE CANNOT BE OPENED :(\n");
+        printf("ERROR: FILE CANNOT BE OPENED \n");
         return -1;
     }
        
     while(fscanf(fin,"%d",&a) == 1){
-        sum+=a;
-        res += a*(insert_num**n);
+        res += a*pow(insert_num,n);
+        if (n != 0){
+        derivative += a*n*pow(insert_num,n-1);
+        }else{
+            derivative += 0;
+        }
         n++;
-
     } 
 
-    if (n == 0){ // zero numbers situation
-        printf("No numbers in the file :(\n");
+    if (n == 0){ // может лучше будет если в файле будут числа
+        printf("No numbers in the file \n");
     }
     else{
-        printf("Result:%d", res);
+        printf("Result:%d\nDerivative:%d\n", res, derivative);
     }
-    
-
-    //printf("sum=%d\nn =%d\n", sum, n);
-    //printf("a1 = %d,a2 = %d,a = %d\n", a1, a2,a);
-    
+    //файлик закрываааем, нолик на место возвращаем
     fclose(fin);
     return 0;
 
