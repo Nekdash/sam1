@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 /*
-объяснять этот пиздец лучше лично
+объяснять этот пиздец лучше лично, санек
 */
 
 
@@ -13,7 +13,7 @@ int main(void){
     int counter = 0; 
     int checker = 0; 
     int monot = 0;
-    int fuck = 0;
+    int fuck = 0; //да у меня переменная матерным словом, могу себе позволить
     int ap = 0;
 
     
@@ -61,7 +61,7 @@ int main(void){
         ap = a;
     } 
 
-    if (n == 0){ // заебали путсые файлы делать бляди
+    if (n == 0){ // заебали пустые файлы делать бляди
         printf("No numbers in the file\n");
     }
     else{
