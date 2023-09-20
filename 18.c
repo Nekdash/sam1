@@ -4,7 +4,7 @@ int main(void){
     int a,sum = 0;
     FILE *fin = NULL;
     int n = 0; //счетчик чисел в файле
-    int min = 2147483647;
+    long int min = 2147483647;
     int min_last = 0;
     
     if ((fin = fopen("input.txt","r")) == NULL){
